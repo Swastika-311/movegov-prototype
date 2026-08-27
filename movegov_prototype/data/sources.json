@@ -1,0 +1,8 @@
+[
+ {"service_id":"aadhaar_address","source_name":"UIDAI - Update Your Aadhaar","source_url":"https://www.uidai.gov.in/en/my-aadhaar/update-aadhaar.html","source_type":"official","verified_date":"2026-08-27"},
+ {"service_id":"voter_residence","source_name":"Election Commission of India - FAQ","source_url":"https://www.eci.gov.in/faq/2/12","source_type":"official","verified_date":"2026-08-27"},
+ {"service_id":"vehicle_rc_address","source_name":"Parivahan - VAHAN Vehicle Registrations and Transactions","source_url":"https://parivahan.gov.in/sites/default/files/FAQDOCS/RTO/VAHAN4.0VehicleRegistrationsandTransactions.pdf","source_type":"official","verified_date":"2026-08-27"},
+ {"service_id":"driving_license_address","source_name":"Parivahan - Services on Driver Licence FAQ","source_url":"https://staging.parivahan.gov.in/en/faq/services-on-driver-license?page=0","source_type":"official","verified_date":"2026-08-27"},
+ {"service_id":"benefit_portability","source_name":"NFSA - Mera Ration 2.0 FAQ","source_url":"https://nfsa.gov.in/doc/FAQ_for_Mera_Ration_2.pdf","source_type":"official","verified_date":"2026-08-27"},
+ {"service_id":"pan_address_review","source_name":"Income Tax Department - Know Your JAO FAQ","source_url":"https://www.incometax.gov.in/iec/foportal/help/all-topics/e-filing-services/Know%20Your%20JAO-FAQ","source_type":"official","verified_date":"2026-08-27"}
+]

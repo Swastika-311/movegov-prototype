@@ -1,0 +1,7 @@
+[
+ {"service_id":"voter_residence","dependency_service_id":"address_proof","dependency_description":"Address proof supports the residence-shifting request."},
+ {"service_id":"vehicle_rc_address","dependency_service_id":"address_proof","dependency_description":"Address proof may be requested depending on the RTO workflow."},
+ {"service_id":"driving_license_address","dependency_service_id":"address_proof","dependency_description":"Address proof may be requested depending on the state/RTO workflow."},
+ {"service_id":"aadhaar_address","dependency_service_id":"address_proof","dependency_description":"UIDAI requires valid supporting proof of address for address update."},
+ {"service_id":"pan_address_review","dependency_service_id":"address_proof","dependency_description":"Address proof may be relevant; verify the current official requirement."}
+]
