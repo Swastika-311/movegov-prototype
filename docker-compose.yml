@@ -5,8 +5,6 @@ services:
       POSTGRES_USER: movegov
       POSTGRES_PASSWORD: movegov
       POSTGRES_DB: movegov
-    ports:
-      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -44,9 +42,6 @@ services:
     command: streamlit run frontend/streamlit_app.py --server.address 0.0.0.0 --server.port 8501
     environment:
       API_BASE_URL: http://backend:8000
-      LLM_PROVIDER: ${LLM_PROVIDER:-none}
-      LLM_API_KEY: ${LLM_API_KEY:-}
-      LLM_MODEL: ${LLM_MODEL:-}
     ports:
       - "8501:8501"
     depends_on:
