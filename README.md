@@ -11,14 +11,49 @@ MoveGov is a life-event government service navigator for citizens permanently mo
 - PAN/address review
 
 ## Architecture
-Streamlit → FastAPI → recommendation engine → service knowledge base → dependency engine → application tracker → retrieval-first assistant.
+Streamlit → FastAPI → PostgreSQL → recommendation engine → service knowledge base → dependency engine → application tracker → retrieval-first assistant.
 
-The LLM layer is intentionally behind a small interface. The default assistant is deterministic and metadata-backed so the prototype remains runnable without an API key.
+The LLM layer is intentionally behind a small interface. The default assistant is deterministic and metadata-backed, so the prototype remains runnable without an API key.
 
-## Quick start
-1. Copy `.env.example` to `.env`.
-2. Run `docker compose up --build`.
-3. Open `http://localhost:8501` for the UI or `http://localhost:8000/docs` for the API.
+## Docker quick start
+Requirements: Docker Desktop with the Linux engine running.
+
+```bash
+git clone https://github.com/Swastika-311/movegov-prototype.git
+cd movegov-prototype
+docker compose up --build
+```
+
+Then open:
+- UI: http://localhost:8501
+- API docs: http://localhost:8000/docs
+- API health: http://localhost:8000/health
+
+No `.env` file is required for the default deterministic assistant. If you later add an LLM provider, set `LLM_PROVIDER`, `LLM_API_KEY`, and `LLM_MODEL` in a local `.env` file; `.env` is ignored by Git.
+
+To run in the background:
+
+```bash
+docker compose up --build -d
+```
+
+To view logs:
+
+```bash
+docker compose logs -f
+```
+
+To stop the stack:
+
+```bash
+docker compose down
+```
+
+To stop and remove the PostgreSQL data volume as well (destructive):
+
+```bash
+docker compose down -v
+```
 
 ## Local development
 Use Python 3.11+, install `requirements.txt`, set `DATABASE_URL` to PostgreSQL (or use the SQLite fallback for tests), then run:
@@ -26,7 +61,10 @@ Use Python 3.11+, install `requirements.txt`, set `DATABASE_URL` to PostgreSQL (
 - `streamlit run frontend/streamlit_app.py`
 
 ## Testing
-`pytest -q`
+
+```bash
+pytest -q
+```
 
 ## Government-source policy
 The structured service records were seeded only with official-source references. Where an exact current requirement could vary by state, RTO, workflow or portal configuration, the product deliberately avoids asserting an exact fact and tells the user to verify it.
