@@ -36,6 +36,13 @@ def go(page):
     st.rerun()
 
 
+def build_plan(user_id):
+    """Force recommendation generation before opening the dashboard."""
+    recs = api('POST', '/recommendations', params={'user_id': user_id})
+    st.session_state.recommendations = recs
+    return recs
+
+
 ensure_user()
 pages = ['Home', 'Relocation setup', 'Personal context', 'Dashboard', 'Journey tracker', 'Ask MoveGov']
 if 'page' not in st.session_state:
@@ -84,19 +91,36 @@ elif page == 'Personal context':
     student = st.checkbox('Are you a student?', p['student'])
     prop = st.checkbox('Do you need to review other address-linked records?', p['property'])
     if st.button('Build my plan', type='primary'):
-        api('POST', f"/users/{st.session_state.user_id}/profile", json={
-            'vehicle': vehicle, 'voter': voter, 'benefits': benefits, 'student': student, 'property': prop,
-        })
-        go('Dashboard')
+        try:
+            api('POST', f"/users/{st.session_state.user_id}/profile", json={
+                'vehicle': vehicle, 'voter': voter, 'benefits': benefits, 'student': student, 'property': prop,
+            })
+            build_plan(st.session_state.user_id)
+            go('Dashboard')
+        except requests.RequestException as exc:
+            st.error(f'Could not build your personalized plan: {exc}')
 
 elif page == 'Dashboard':
-    u = api('GET', f"/users/{st.session_state.user_id}")
-    recs = api('GET', f"/recommendations/{u['id']}")
-    apps = api('GET', f"/applications/{u['id']}")
+    try:
+        u = api('GET', f"/users/{st.session_state.user_id}")
+        recs = api('GET', f"/recommendations/{u['id']}")
+        if not recs:
+            recs = build_plan(u['id'])
+        apps = api('GET', f"/applications/{u['id']}")
+    except requests.RequestException as exc:
+        st.error(f'Could not load your personalized dashboard: {exc}')
+        st.stop()
+
     st.header('Personalized dashboard')
     st.caption(f"{u['current_city']} → {u['destination_city']} · {u['move_type']} · {u['reason']}")
     completed = sum(a['status'] == 'Completed' for a in apps)
     st.progress(completed / max(len(recs), 1), text=f'{completed}/{len(recs)} tracked actions completed')
+
+    if recs:
+        st.success(f'Your plan is ready — {len(recs)} government-service actions match your move and profile.')
+    else:
+        st.warning('No personalized actions matched the current profile. Return to Personal context and review your answers.')
+
     for r in recs:
         a = next((x for x in apps if x['service_id'] == r['service_id']), None)
         status = a['status'] if a else 'Not Started'
