@@ -5,7 +5,7 @@ from app.db.models import User, GovernmentService, Application
 from app.api.schemas.models import ApplicationCreate, ApplicationPatch
 
 router = APIRouter(prefix='/applications', tags=['applications'])
-VALID = {'Not Started', 'Preparing', 'Submitted', 'Under Processing', 'Action Required', 'Completed'}
+VALID = {'Not Started', 'Preparing', 'Submitted', 'Under Processing', 'Action Required', 'Completed', 'Done'}
 
 
 @router.post('')
