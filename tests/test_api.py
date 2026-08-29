@@ -13,6 +13,11 @@ def test_health(): assert client.get('/health').status_code==200
 def test_sources_attached():
     r=client.get('/recommendations/1'); assert r.status_code==200; assert all(x['source']['url'] for x in r.json())
 
+def test_recommendations_include_deterministic_rule_explanations():
+    r=client.get('/recommendations/1'); assert r.status_code==200
+    assert all({'service_id','applicability','reason','matched_conditions','priority','dependencies','jurisdiction_relevance'} <= item.keys() for item in r.json())
+    assert {item['applicability'] for item in r.json()} <= {'required','may_apply','review'}
+
 def test_dependencies():
     r=client.get('/services/voter_residence'); assert r.status_code==200; assert r.json()['dependencies']
 

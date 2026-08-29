@@ -1,6 +1,8 @@
-# MoveGov
+# LifeNav
 
-MoveGov is a life-event government service navigator for citizens permanently moving between Indian cities. The prototype organizes six address-linked government actions into one personalized journey, with deterministic recommendations, dependencies, official-source links, an application tracker, and retrieval-first assistance.
+## Life-Event Government Service Navigator
+
+LifeNav is a life-event government service navigator for citizens permanently moving between Indian cities. The prototype organizes six address-linked government actions into one personalized journey, with deterministic recommendations, dependencies, official-source links, an application tracker, and retrieval-first assistance.
 
 ## Scope
 - Aadhaar address update
@@ -70,6 +72,6 @@ pytest -q
 The structured service records were seeded only with official-source references. Where an exact current requirement could vary by state, RTO, workflow or portal configuration, the product deliberately avoids asserting an exact fact and tells the user to verify it.
 
 ## Safety / limitations
-MoveGov does not submit applications, access government databases, modify government records, determine legal eligibility, or represent any government department. The tracker is local prototype state only.
+LifeNav does not submit applications, access government databases, modify government records, determine legal eligibility, or represent any government 
 
-> MoveGov is a prototype coordination and navigation layer. It does not directly modify government records or represent official government systems.
+> LifeNav is a prototype coordination and navigation layer. It does not directly modify government records or represent official government systems.
