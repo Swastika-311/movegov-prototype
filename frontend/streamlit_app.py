@@ -4,33 +4,9 @@ import streamlit as st
 from datetime import date
 
 API = os.getenv('API_BASE_URL', 'http://localhost:8000')
-st.set_page_config(page_title='MoveGov', page_icon='🧭', layout='wide')
+st.set_page_config(page_title='LifeNav', page_icon='🧭', layout='wide')
 st.markdown('''<style>
-.block-container{max-width:1200px;padding-top:2rem}
-.hero{padding:2rem;border-radius:20px;background:linear-gradient(135deg,#eef5ff,#f8fbff);border:1px solid #dbe7f5}
-.card{padding:1rem;border:1px solid #d1d5db;border-radius:14px;margin:.5rem 0;background:#ffffff}
-.badge{display:inline-block;padding:.2rem .6rem;border-radius:999px;background:#eef2ff;font-size:.8rem;color:#1e293b}
-.muted{color:#475569}
-
-/* Keep all form controls readable in both light and dark browser/Streamlit themes. */
-div[data-baseweb="input"]{background-color:#ffffff !important;border:1px solid #94a3b8 !important;border-radius:8px !important}
-div[data-baseweb="input"] input{color:#111827 !important;background-color:#ffffff !important;-webkit-text-fill-color:#111827 !important;caret-color:#111827 !important}
-div[data-baseweb="select"] > div{background-color:#ffffff !important;color:#111827 !important;border:1px solid #94a3b8 !important}
-div[data-baseweb="select"] span{color:#111827 !important}
-div[data-baseweb="textarea"] textarea{color:#111827 !important;background-color:#ffffff !important;-webkit-text-fill-color:#111827 !important;caret-color:#111827 !important;border:1px solid #94a3b8 !important}
-input[type="date"]{color:#111827 !important;background-color:#ffffff !important;-webkit-text-fill-color:#111827 !important}
-.stTextInput label,.stDateInput label,.stSelectbox label,.stCheckbox label,.stTextArea label{color:#111827 !important;font-weight:600 !important}
-.stTextInput [data-testid="InputInstructions"],.stDateInput [data-testid="InputInstructions"]{color:#475569 !important}
-.stCheckbox span{color:#111827 !important}
-button[kind="primary"]{font-weight:700 !important}
-
-/* Make dashboard content readable and comfortable on narrow screens. */
-@media (max-width:700px){
-  .block-container{padding:1rem .75rem !important}
-  .hero{padding:1.25rem !important}
-  .card{padding:.85rem !important}
-}
-</style>''', unsafe_allow_html=True)
+.block-container{max-width:1200px;padding-top:2rem}.hero{padding:2rem;border-radius:20px;background:linear-gradient(135deg,#eef5ff,#f8fbff);border:1px solid #dbe7f5}.card{padding:1rem;border:1px solid #e5e7eb;border-radius:14px;margin:.5rem 0;background:white}.badge{display:inline-block;padding:.2rem .6rem;border-radius:999px;background:#eef2ff;font-size:.8rem}.muted{color:#64748b}.stTextInput input,.stTextArea textarea,.stDateInput input{color:#111827!important;background:#fff!important}.stSelectbox div[data-baseweb="select"]>div{color:#111827!important;background:#fff!important}.stCheckbox label,.stRadio label{color:#111827!important}</style>''', unsafe_allow_html=True)
 
 
 def api(method, path, **kwargs):
@@ -50,7 +26,7 @@ def ensure_user():
             'student': False, 'property': False,
         })['id']
     except requests.RequestException as exc:
-        st.error(f'Could not start the demo journey: {exc}')
+        st.error(f'Could not start the LifeNav journey: {exc}')
         st.stop()
 
 
@@ -60,18 +36,18 @@ def go(page):
 
 
 def build_plan(user_id):
-    """Force recommendation generation before opening the dashboard."""
     recs = api('POST', '/recommendations', params={'user_id': user_id})
     st.session_state.recommendations = recs
     return recs
 
 
 ensure_user()
-pages = ['Home', 'Relocation setup', 'Personal context', 'Dashboard', 'Journey tracker', 'Ask MoveGov']
+pages = ['Home', 'Relocation setup', 'Personal context', 'Dashboard', 'Journey tracker', 'Ask LifeNav']
 if 'page' not in st.session_state:
     st.session_state.page = 'Home'
 
-st.sidebar.title('MoveGov')
+st.sidebar.title('LifeNav')
+st.sidebar.caption('Your life-event government navigator')
 selected_page = st.sidebar.radio('Journey', pages, index=pages.index(st.session_state.page))
 if selected_page != st.session_state.page:
     st.session_state.page = selected_page
@@ -79,10 +55,10 @@ if selected_page != st.session_state.page:
 page = st.session_state.page
 
 if page == 'Home':
-    st.markdown('<div class="hero"><h1>MoveGov</h1><h3>Government services, organized around your life event.</h3><p>Navigate a move with one personalized checklist, official sources, dependencies and a prototype progress tracker.</p></div>', unsafe_allow_html=True)
+    st.markdown('<div class="hero"><h1>LifeNav</h1><h3>Government services, organized around your life event.</h3><p>Navigate a move with one personalized checklist, official sources, dependencies and a prototype progress tracker.</p></div>', unsafe_allow_html=True)
     if st.button('Start Relocation Journey', type='primary'):
         go('Relocation setup')
-    st.info('Demo mode: all citizen/application data is synthetic. MoveGov is not a government website and does not submit applications or modify government records.')
+    st.info('Demo mode: all citizen/application data is synthetic. LifeNav is not a government website and does not submit applications or modify government records.')
 
 elif page == 'Relocation setup':
     u = api('GET', f"/users/{st.session_state.user_id}")
@@ -134,7 +110,7 @@ elif page == 'Dashboard':
         st.error(f'Could not load your personalized dashboard: {exc}')
         st.stop()
 
-    st.header('Personalized dashboard')
+    st.header('Your personalized LifeNav dashboard')
     st.caption(f"{u['current_city']} → {u['destination_city']} · {u['move_type']} · {u['reason']}")
     completed = sum(a['status'] == 'Completed' for a in apps)
     st.progress(completed / max(len(recs), 1), text=f'{completed}/{len(recs)} tracked actions completed')
@@ -181,7 +157,7 @@ elif page == 'Journey tracker':
     recs = api('GET', f"/recommendations/{u['id']}")
     apps = api('GET', f"/applications/{u['id']}")
     st.header('Journey tracker')
-    st.info('MoveGov prototype tracker — not connected to government application status APIs.')
+    st.info('LifeNav prototype tracker — not connected to government application status APIs.')
     for i, r in enumerate(recs, 1):
         a = next((x for x in apps if x['service_id'] == r['service_id']), None)
         status = a['status'] if a else 'Not Started'
@@ -189,9 +165,9 @@ elif page == 'Journey tracker':
     st.subheader('Shared dependency')
     st.write('One document may support multiple services. Address proof is shown as a shared dependency where the official workflow indicates it may be relevant.')
 
-elif page == 'Ask MoveGov':
-    st.header('Ask MoveGov')
-    st.caption('Official-source retrieval first. MoveGov does not determine government eligibility independently.')
+elif page == 'Ask LifeNav':
+    st.header('Ask LifeNav')
+    st.caption('Official-source retrieval first. LifeNav does not determine government eligibility independently.')
     q = st.chat_input('Ask a relocation question…')
     if q:
         try:
@@ -201,4 +177,4 @@ elif page == 'Ask MoveGov':
             for s in out.get('sources', []):
                 st.caption(f"Source: {s['name']} — {s['url']}")
         except requests.RequestException as exc:
-            st.error(f'Unable to reach MoveGov right now: {exc}')
+            st.error(f'Unable to reach LifeNav right now: {exc}')
