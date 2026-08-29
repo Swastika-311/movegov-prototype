@@ -1,0 +1,50 @@
+{
+  "dataset_name": "MoveGov Government Service Reference Dataset",
+  "version": "2026-08-27",
+  "purpose": "Structured reference data for a relocation-planning prototype. This is not an official government dataset and is not a live government API feed.",
+  "data_policy": "Use only public official-source references. Do not store citizen identifiers, OTPs, payment information, or application credentials.",
+  "records": [
+    {
+      "service_id": "aadhaar_address",
+      "department": "UIDAI",
+      "official_service_url": "https://myaadhaar.uidai.gov.in/",
+      "official_source_url": "https://www.uidai.gov.in/en/my-aadhaar/update-aadhaar.html",
+      "source_last_verified": "2026-08-27"
+    },
+    {
+      "service_id": "voter_residence",
+      "department": "Election Commission of India",
+      "official_service_url": "https://voters.eci.gov.in/home/forms",
+      "official_source_url": "https://www.eci.gov.in/faq/2/12",
+      "source_last_verified": "2026-08-27"
+    },
+    {
+      "service_id": "vehicle_rc_address",
+      "department": "Ministry of Road Transport & Highways / Parivahan",
+      "official_service_url": "https://vahan.parivahan.gov.in/",
+      "official_source_url": "https://parivahan.gov.in/sites/default/files/FAQDOCS/RTO/VAHAN4.0VehicleRegistrationsandTransactions.pdf",
+      "source_last_verified": "2026-08-27"
+    },
+    {
+      "service_id": "driving_license_address",
+      "department": "Ministry of Road Transport & Highways / Parivahan",
+      "official_service_url": "https://sarathi.parivahan.gov.in/",
+      "official_source_url": "https://parivahan.gov.in/en/content/services-driver-licence",
+      "source_last_verified": "2026-08-27"
+    },
+    {
+      "service_id": "benefit_portability",
+      "department": "Department of Food & Public Distribution / NFSA",
+      "official_service_url": "https://nfsa.gov.in/",
+      "official_source_url": "https://nfsa.gov.in/doc/FAQ_for_Mera_Ration_2.pdf",
+      "source_last_verified": "2026-08-27"
+    },
+    {
+      "service_id": "pan_address_review",
+      "department": "Income Tax Department",
+      "official_service_url": "https://www.incometax.gov.in/iec/foportal/",
+      "official_source_url": "https://www.incometax.gov.in/iec/foportal/help/all-topics/e-filing-services/Know%20Your%20JAO-FAQ",
+      "source_last_verified": "2026-08-27"
+    }
+  ]
+}
