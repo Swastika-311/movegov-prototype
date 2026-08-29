@@ -26,7 +26,7 @@ def ensure_user():
             'reason': 'Employment', 'vehicle': True, 'voter': True, 'benefits': True,
             'student': False, 'property': False,
         })['id']
-    except Exception as exc:
+    except requests.RequestException as exc:
         st.error(f'Could not start the demo journey: {exc}')
         st.stop()
 
@@ -37,16 +37,16 @@ def go(page):
 
 
 ensure_user()
-
 pages = ['Home', 'Relocation setup', 'Personal context', 'Dashboard', 'Journey tracker', 'Ask MoveGov']
 if 'page' not in st.session_state:
     st.session_state.page = 'Home'
 
 st.sidebar.title('MoveGov')
-page = st.sidebar.radio('Journey', pages, index=pages.index(st.session_state.page), key='nav_page')
-if page != st.session_state.page:
-    st.session_state.page = page
+selected_page = st.sidebar.radio('Journey', pages, index=pages.index(st.session_state.page))
+if selected_page != st.session_state.page:
+    st.session_state.page = selected_page
     st.rerun()
+page = st.session_state.page
 
 if page == 'Home':
     st.markdown('<div class="hero"><h1>MoveGov</h1><h3>Government services, organized around your life event.</h3><p>Navigate a move with one personalized checklist, official sources, dependencies and a prototype progress tracker.</p></div>', unsafe_allow_html=True)
@@ -72,7 +72,6 @@ elif page == 'Relocation setup':
                     'current_city': cur.strip(), 'destination_city': dest.strip(),
                     'state': u['state'], 'move_date': str(d), 'move_type': typ, 'reason': reason.strip(),
                 })
-                st.success('Saved. Continue to Personal context.')
                 go('Personal context')
 
 elif page == 'Personal context':
